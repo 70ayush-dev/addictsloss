@@ -301,6 +301,60 @@
         .bg-element:nth-child(4) { top: 80%; right: 20%; animation-delay: 1s; }
         .bg-element:nth-child(5) { top: 20%; left: 80%; animation-delay: 3s; }
         .bg-element:nth-child(6) { top: 70%; left: 70%; animation-delay: 5s; }
+
+
+        .book-slider-section {
+            text-align: center;
+        }
+
+        .slider-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .slider-img {
+            display: none;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slider-img.active {
+            display: block;
+        }
+
+        .thumbnail-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .thumb {
+            width: 80px;
+            height: 100px;
+            object-fit: cover;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .thumb.active {
+            border-color: #8b0000;
+            opacity: 1;
+        }
+
+
     </style>
 </head>
 <body>
@@ -352,6 +406,28 @@
                 </div>
             </div>
         </main>
+
+        <!-- Book Slider Section -->
+        <section class="book-slider-section" style="margin-bottom: 60px;">
+            <h2 class="section-title">More Editions & Covers</h2>
+            <div class="slider-container">
+                <div class="slider">
+                    <img src="slide1.jpg" alt="Book slide 1" class="slider-img active">
+                    <img src="slide2.jpg" alt="Book slide 2" class="slider-img">
+                    <img src="slide3.jpg" alt="Book slide 3" class="slider-img">
+                    <img src="slide4.jpg" alt="Book slide 4" class="slider-img">
+                    <img src="slide5.jpg" alt="Book slide 4" class="slider-img">
+                </div>
+                <div class="thumbnail-container">
+                    <img src="slide1.jpg" alt="Thumb 1" class="thumb active" onclick="showSlide(0)">
+                    <img src="slide2.jpg" alt="Thumb 2" class="thumb" onclick="showSlide(1)">
+                    <img src="slide3.jpg" alt="Thumb 3" class="thumb" onclick="showSlide(2)">
+                    <img src="slide4.jpg" alt="Thumb 4" class="thumb" onclick="showSlide(3)">
+                    <img src="slide5.jpg" alt="Thumb 4" class="thumb" onclick="showSlide(3)">
+                </div>
+            </div>
+        </section>
+
 
         <!-- Call to Action -->
         <section class="cta-section">
@@ -464,6 +540,35 @@
         coverImage.addEventListener('mouseleave', () => {
             document.body.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%)';
         });
+
+        const slides = document.querySelectorAll('.slider-img');
+        const thumbs = document.querySelectorAll('.thumb');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+                thumbs[i].classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+        }
+
+        // Auto-rotate every 3 seconds
+        setInterval(() => {
+            const nextSlide = (currentSlide + 1) % slides.length;
+            showSlide(nextSlide);
+        }, 3000);
+
+        // Allow manual thumbnail click
+        thumbs.forEach((thumb, index) => {
+            thumb.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Initialize first slide
+        showSlide(0);
+
     </script>
 </body>
 </html>
