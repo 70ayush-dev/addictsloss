@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Addicts Loss - A Novel by Oliver Henley</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%);
+            color: #e0e0e0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated background elements */
+        .bg-element {
+            position: fixed;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .rose {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #8b0000, #4a0000);
+            border-radius: 50% 10% 50% 10%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .smoke {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(200,200,200,0.4) 0%, rgba(150,150,150,0.2) 40%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(3px);
+            animation: smoke-cloud 12s ease-in-out infinite;
+        }
+
+        .smoke-cloud {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(180,180,180,0.3) 0%, rgba(120,120,120,0.15) 50%, transparent 80%);
+            border-radius: 50%;
+            filter: blur(8px);
+            animation: smoke-drift 15s ease-in-out infinite;
+        }
+
+        .knife {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, #c0c0c0, #666);
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes smoke-cloud {
+            0% { 
+                transform: scale(0) rotate(0deg); 
+                opacity: 0; 
+            }
+            25% { 
+                transform: scale(1.2) rotate(90deg); 
+                opacity: 0.6; 
+            }
+            50% { 
+                transform: scale(1.5) rotate(180deg); 
+                opacity: 0.4; 
+            }
+            75% { 
+                transform: scale(1.8) rotate(270deg); 
+                opacity: 0.2; 
+            }
+            100% { 
+                transform: scale(2) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes smoke-drift {
+            0% { 
+                transform: translateX(-100px) translateY(50px) scale(0.5) rotate(0deg); 
+                opacity: 0; 
+            }
+            20% { 
+                transform: translateX(0px) translateY(0px) scale(1) rotate(45deg); 
+                opacity: 0.5; 
+            }
+            50% { 
+                transform: translateX(50px) translateY(-30px) scale(1.3) rotate(180deg); 
+                opacity: 0.3; 
+            }
+            80% { 
+                transform: translateX(100px) translateY(-60px) scale(1.6) rotate(270deg); 
+                opacity: 0.1; 
+            }
+            100% { 
+                transform: translateX(150px) translateY(-100px) scale(2) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(45deg, rgba(139,0,0,0.2), rgba(0,0,0,0.8));
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+            border-bottom: 2px solid #8b0000;
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(139,0,0,0.8);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ccc;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .author {
+            font-size: 1.2rem;
+            color: #8b0000;
+            font-weight: bold;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 3px 3px 6px rgba(139,0,0,0.8), 0 0 20px rgba(139,0,0,0.4); }
+            to { text-shadow: 3px 3px 6px rgba(139,0,0,1), 0 0 30px rgba(139,0,0,0.8); }
+        }
+
+        /* Main content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            margin-bottom: 60px;
+            align-items: start;
+        }
+
+        .book-cover {
+            position: relative;
+            text-align: center;
+        }
+
+        .cover-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 60px rgba(139,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cover-image:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 80px rgba(139,0,0,0.5);
+        }
+
+        .book-details {
+            background: linear-gradient(135deg, rgba(26,10,10,0.8), rgba(10,10,10,0.9));
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(139,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #8b0000;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            border-bottom: 2px solid #8b0000;
+            padding-bottom: 10px;
+        }
+
+        .plot-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ddd;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .character-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .tag {
+            background: linear-gradient(45deg, #8b0000, #4a0000);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(139,0,0,0.5);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(45deg, rgba(139,0,0,0.1), rgba(0,0,0,0.7));
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 2px solid rgba(139,0,0,0.3);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #8b0000, #cd5c5c);
+            color: white;
+            padding: 18px 40px;
+            font-size: 1.3rem;
+            text-decoration: none;
+            border-radius: 50px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(139,0,0,0.4);
+            background: linear-gradient(45deg, #cd5c5c, #8b0000);
+            border-color: #fff;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(139,0,0,0.3);
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .book-details {
+                padding: 20px;
+            }
+            
+            .character-tags {
+                justify-content: center;
+            }
+        }
+
+        /* Background positioning */
+        .bg-element:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .bg-element:nth-child(2) { top: 30%; right: 10%; animation-delay: 2s; }
+        .bg-element:nth-child(3) { top: 60%; left: 15%; animation-delay: 4s; }
+        .bg-element:nth-child(4) { top: 80%; right: 20%; animation-delay: 1s; }
+        .bg-element:nth-child(5) { top: 20%; left: 80%; animation-delay: 3s; }
+        .bg-element:nth-child(6) { top: 70%; left: 70%; animation-delay: 5s; }
+    </style>
+</head>
+<body>
+    <!-- Animated background elements -->
+    <div class="bg-element rose"></div>
+    <div class="bg-element knife"></div>
+    <div class="bg-element rose"></div>
+    <div class="bg-element knife"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">THE ADDICTS LOSS</h1>
+            <p class="subtitle">A haunting tale of trauma, love, and redemption</p>
+            <p class="author">A Novel by Oliver Henley</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="book-cover">
+                <img src="cover.jpg" alt="The Addicts Loss Book Cover" class="cover-image">
+            </div>
+
+            <div class="book-details">
+                <h2 class="section-title">About the Story</h2>
+                
+                <p class="plot-text">
+                    After deciding to quit therapy and believing he's in a better place, Orion pushes his trauma deep down and moves forward with Anette. Together, they pursue their dreams of becoming a nurse and therapist, with Orion inspired to help others through his own experiences.
+                </p>
+                
+                <p class="plot-text">
+                    But when prescribed medication to help with his trauma sends him spiraling into a passive episode, Orion shuts everyone out. Despite Anette's unwavering support, his inability to express emotions and growing toxicity threatens to destroy everything they've built.
+                </p>
+                
+                <p class="plot-text">
+                    Haunted by his father's addiction and a toxic childhood, Orion's consequential actions throw his relationship into jeopardy. As his best friend fails to persuade him to stop his deadly path, a tragic heartbreak becomes inevitable.
+                </p>
+
+                <div class="character-tags">
+                    <span class="tag">Drug Addict</span>
+                    <span class="tag">Male Protagonist</span>
+                    <span class="tag">Abused by Father</span>
+                    <span class="tag">Obsessive</span>
+                    <span class="tag">Possessive</span>
+                    <span class="tag">Masked Stalker</span>
+                    <span class="tag">Female Dom / Male Sub</span>
+                    <span class="tag">Enemies to Lovers</span>
+                    <span class="tag">He Fell First</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <h2 class="section-title">Get Your Copy Today</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px; color: #ddd;">
+                Dive into this intense psychological journey of love, addiction, and redemption
+            </p>
+            <a href="#" class="cta-button">Buy Now</a>
+            <a href="#" class="cta-button">Read Sample</a>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Oliver Henley. All rights reserved.</p>
+            <p>A story of darkness, healing, and the complexity of human connection.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Create realistic smoke clouds
+        function createSmokeCloud() {
+            const smokeCloud = document.createElement('div');
+            smokeCloud.className = 'bg-element smoke-cloud';
+            
+            // Random position
+            smokeCloud.style.left = Math.random() * 100 + '%';
+            smokeCloud.style.top = Math.random() * 100 + '%';
+            
+            // Random animation duration and delay
+            smokeCloud.style.animationDuration = (Math.random() * 8 + 10) + 's';
+            smokeCloud.style.animationDelay = Math.random() * 3 + 's';
+            
+            // Random size variation
+            const scale = 0.5 + Math.random() * 0.8;
+            smokeCloud.style.transform = `scale(${scale})`;
+            
+            smokeCloud.style.zIndex = '1';
+            document.body.appendChild(smokeCloud);
+            
+            setTimeout(() => {
+                if (smokeCloud.parentNode) {
+                    smokeCloud.remove();
+                }
+            }, 18000);
+        }
+
+        // Create smaller smoke puffs
+        function createSmokePuff() {
+            const smoke = document.createElement('div');
+            smoke.className = 'bg-element smoke';
+            
+            // Random position
+            smoke.style.left = Math.random() * 100 + '%';
+            smoke.style.top = Math.random() * 100 + '%';
+            
+            // Random animation properties
+            smoke.style.animationDuration = (Math.random() * 6 + 8) + 's';
+            smoke.style.animationDelay = Math.random() * 2 + 's';
+            
+            smoke.style.zIndex = '2';
+            document.body.appendChild(smoke);
+            
+            setTimeout(() => {
+                if (smoke.parentNode) {
+                    smoke.remove();
+                }
+            }, 15000);
+        }
+
+        // Initialize smoke effects
+        function initializeSmoke() {
+            // Create initial smoke clouds
+            for(let i = 0; i < 3; i++) {
+                setTimeout(createSmokeCloud, i * 2000);
+            }
+            
+            // Create initial smoke puffs
+            for(let i = 0; i < 4; i++) {
+                setTimeout(createSmokePuff, i * 1500);
+            }
+        }
+
+        // Start smoke effects when page loads
+        initializeSmoke();
+
+        // Create new smoke clouds periodically
+        setInterval(createSmokeCloud, 4000);
+        
+        // Create new smoke puffs periodically  
+        setInterval(createSmokePuff, 2500);
+
+        // Add subtle parallax effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelectorAll('.bg-element');
+            const speed = 0.2;
+
+            parallax.forEach(element => {
+                const yPos = -(scrolled * speed);
+                element.style.transform = `translateY(${yPos}px)`;
+            });
+        });
+
+        // Add hover effect to book cover
+        const coverImage = document.querySelector('.cover-image');
+        coverImage.addEventListener('mouseenter', () => {
+            document.body.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #2a0a0a 50%, #0a0a0a 100%)';
+        });
+
+        coverImage.addEventListener('mouseleave', () => {
+            document.body.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%)';
+        });
+    </script>
+</body>
+</html>
